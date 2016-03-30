@@ -1,0 +1,3 @@
+[submodule "stampede/VirSorter"]
+	path = stampede/VirSorter
+	url = git@github.com:simroux/VirSorter.git
