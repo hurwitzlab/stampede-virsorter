@@ -1,0 +1,7 @@
+*.out
+*.log
+*.params
+*.swp
+stampede/bin
+stampede/VirSorter
+*.tgz
