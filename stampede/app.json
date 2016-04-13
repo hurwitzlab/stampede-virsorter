@@ -1,0 +1,59 @@
+{"available":true,
+ "checkpointable":false,
+ "defaultMemoryPerNode":32,
+ "defaultProcessorsPerNode":16,
+ "defaultMaxRunTime":"08:00:00",
+ "defaultNodeCount":1,
+ "defaultQueue":"serial",
+ "deploymentPath":"kyclark/applications/virsorter-1.0.4",
+ "deploymentSystem":"data.iplantcollaborative.org",
+ "executionSystem":"stampede-02232015-1013-kyclark",
+ "executionType":"HPC",
+ "helpURI":"https://github.com/hurwitzlab/stampede-virsorter",
+ "label": "VirSorter",
+ "longDescription":"",
+ "modules":[],
+ "name":"VirSorter",
+ "ontology":["http://sswapmeet.sswap.info/agave/apps/Application"],
+ "parallelism":"SERIAL",
+ "shortDescription":"Virus detection",
+ "tags":["viral,virus,contamination"],
+ "templatePath":"/stampede/run-virsorter.sh",
+ "testPath":"/stampede/test-virsorter.sh",
+ "version":"1.0.4",
+ "inputs":[
+    {"id":"IN_DIR",
+     "value":
+        {"default":"",
+         "order":0,
+         "required":true,
+         "validator":"",
+         "visible":true},
+     "semantics":
+        {"ontology":["http://sswapmeet.sswap.info/mime/application/X-bam"],
+         "minCardinality":1,
+         "fileTypes":["raw-0"]},
+     "details":
+        {"description":"",
+         "label":"Directory of FASTA files to compare",
+         "argument":null,
+         "showArgument":false}
+    }
+ ],
+ "outputs":[
+    {"id":"OUT_DIR",
+     "value":
+        {"default":"virsorter-out",
+         "order":0,
+         "required":true,
+         "validator":"",
+         "visible":true},
+     "semantics":
+        {"ontology":["http://sswapmeet.sswap.info/mime/application/X-bam"],
+         "minCardinality":1,
+         "fileTypes":["raw-0"]},
+     "details":
+        {"description":"",
+         "label":"Output directory",
+         "argument":null,
+         "showArgument":false}}]}
