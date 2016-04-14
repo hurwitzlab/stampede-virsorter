@@ -3,15 +3,16 @@
 set -u
 
 BIN="$( readlink -f -- "$( dirname -- "$0" )" )"
-WDIR=$WORK/virsorter-1.0.4/stampede
-PARAM="$WDIR/paramlist"
-LOG="$WDIR/launcher.log"
-VIRSORTER="$WDIR/VirSorter/wrapper_phage_contigs_sorter_iPlant.pl"
-PARTITION=${PARTITION:-normal}
-OUT_DIR=${OUT_DIR:-virsorter-out}
+# WDIR=$WORK/virsorter-1.0.4/stampede
+PARAM="./paramlist"
+LOG="./launcher.log"
+VIRSORTER="./VirSorter/wrapper_phage_contigs_sorter_iPlant.pl"
+PARTITION=${PARTITION:-"normal"}
+OUT_DIR=${OUT_DIR:-"virsorter-out"}
 IN_DIR=${IN_DIR:-""}
-VIRSORTER_DB_DIR=${DB_DIR:-$WORK/virsorter-data}
-DB_CHOICE=${DB_CHOICE:-1}
+VIRSORTER_DB_DIR=${DB_DIR:-"$WORK/virsorter-data"}
+DB_CHOICE=${DB_CHOICE:-"RefSeqDB"}
+OPT_SEQ=${OPT_SEQ:-""}
 
 function HELP() {
   printf "Usage:\n  %s -i IN_DIR -o OUT_DIR\n\n" \ $(basename $0)
@@ -24,12 +25,16 @@ function HELP() {
   echo " -d DB_DIR ($VIRSORTER_DB_DIR)"
   echo " -p PARTITION ($PARTITION)"
   echo " -c DB_CHOICE ($DB_CHOICE)"
+  echo " -a CUSTOM_PHAGE_SEQUENCE"
   echo ""
   exit 0
 }
 
-while getopts :c:d:i:p:o:h OPT; do
+while getopts :a:c:d:i:p:o:h OPT; do
   case $OPT in
+    a)
+      OPT_SEQ="$OPTARG"
+      ;;
     c)
       DB_CHOICE="$OPTARG"
       ;;
@@ -121,14 +126,18 @@ if [[ $NUM_FILES -lt 1 ]]; then
 fi
 
 cat -n $FILES_LIST >> $LOG
-
+CUSTOM_PHAGE_ARG=""
+if [[ -n $OPT_SEQ ]]; then
+  CUSTOM_PHAGE_ARG="--cp $OPT_SEQ"
+fi
 i=0
 while read FILE; do
   let i++
 
   BASENAME=$(basename $FILE)
-  OUT_DIR=$WORK/delong/${BASENAME%.fasta}
-  echo "$VIRSORTER -f $FILE --db $DB_CHOICE --wdir $OUT_DIR --data-dir $VIRSORTER_DB_DIR" >> $PARAM
+  OUT=$OUT_DIR/${BASENAME%.fasta}
+
+  echo "$VIRSORTER -f $FILE --db $DB_CHOICE --wdir $OUT --data-dir $VIRSORTER_DB_DIR $CUSTOM_PHAGE_ARG" >> $PARAM
 done < $FILES_LIST
 
 export TACC_LAUNCHER_NPHI=0
