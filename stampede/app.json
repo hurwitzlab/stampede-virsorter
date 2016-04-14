@@ -7,19 +7,19 @@
  "defaultQueue":"serial",
  "deploymentPath":"kyclark/applications/virsorter-1.0.4",
  "deploymentSystem":"data.iplantcollaborative.org",
- "executionSystem":"stampede-02232015-1013-kyclark",
+ "executionSystem":"tacc-stampede-kyclark",
  "executionType":"HPC",
- "helpURI":"https://github.com/hurwitzlab/stampede-virsorter",
+ "helpURI":"https://peerj.com/articles/985",
  "label": "VirSorter",
- "longDescription":"",
+ "longDescription":"A tool designed to detect viral signal in different types of microbial sequence data in both a reference-dependent and reference-independent manner, leveraging probabilistic models and extensive virome data to maximize detection of novel viruses.",
  "modules":[],
  "name":"VirSorter",
  "ontology":["http://sswapmeet.sswap.info/agave/apps/Application"],
  "parallelism":"SERIAL",
- "shortDescription":"Virus detection",
- "tags":["viral,virus,contamination"],
- "templatePath":"/stampede/run-virsorter.sh",
- "testPath":"/stampede/test-virsorter.sh",
+ "shortDescription":"mining viral signal from microbial genomic data",
+ "tags":["viral,virus,contamination,microbe,genome"],
+ "templatePath":"stampede/run-virsorter.sh",
+ "testPath":"stampede/test-virsorter.sh",
  "version":"1.0.4",
  "inputs":[
     {"id":"IN_DIR",
@@ -36,7 +36,38 @@
      "details":
         {"description":"",
          "label":"Directory of FASTA files to compare",
-         "argument":null,
+         "argument":"-i",
+         "showArgument":false}
+    },
+    {"id":"OPT_SEQ",
+     "value":
+        {"default":"",
+         "order":0,
+         "required":false,
+         "validator":"",
+         "visible":true},
+     "semantics": {"ontology":["xsd:string"]},
+     "details":
+        {"description":"Additional viral sequence to be used as reference (optional)",
+         "label":"Custom phage sequence",
+         "argument":"-a",
+         "showArgument":false}
+    }
+  ],
+  "parameters": [
+    {"id":"DB_CHOICE",
+     "value":
+        {"default":"RefSeqDB",
+         "type":"enumeration",
+         "enumValues":["RefSeqDB","ViromeDB"],
+         "order":0,
+         "required":false,
+         "visible":true},
+     "semantics": {"ontology":["xs:string"]},
+     "details":
+        {"description":"",
+         "label":"Reference Database",
+         "argument":"-c",
          "showArgument":false}
     }
  ],
